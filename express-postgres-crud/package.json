@@ -4,7 +4,7 @@
   "description": "Creating Basic CRUD application",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,6 +24,11 @@
   },
   "homepage": "https://github.com/rupeshbharti/MERN-Stack#readme",
   "devDependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "pg": "^8.23.0"
   }
 }
