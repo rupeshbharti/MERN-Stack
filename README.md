@@ -1,2 +1,2 @@
 # MERN-Stack
-Learning MERN Stacking and implementing it with projects
+Learning MERN Stack and implementing it with projects
