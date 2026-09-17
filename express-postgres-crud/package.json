@@ -1,0 +1,29 @@
+{
+  "name": "express-postgres-crud",
+  "version": "1.0.0",
+  "description": "Creating Basic CRUD application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rupeshbharti/MERN-Stack.git"
+  },
+  "keywords": [
+    "get",
+    "post",
+    "put",
+    "delete"
+  ],
+  "author": "Rupesh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rupeshbharti/MERN-Stack/issues"
+  },
+  "homepage": "https://github.com/rupeshbharti/MERN-Stack#readme",
+  "devDependencies": {
+    "express": "^5.2.1"
+  }
+}
