@@ -1,0 +1,27 @@
+{
+  "name": "crud-web-app",
+  "version": "1.0.0",
+  "description": "Creating Fully structured project",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "create",
+    "get",
+    "update",
+    "delete"
+  ],
+  "author": "rupesh",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.23.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
