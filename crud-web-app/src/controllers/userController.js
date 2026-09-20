@@ -1,50 +1,41 @@
 const userService = require("../services/userService");
+const AppError = require("../utils/AppErrors");
 
 
 // GET all users
-const getUsers = async (req, res) => {
+const getUsers = async (req, res, next) => {
     try {
         const users = await userService.getAllUsers();
 
         res.status(200).json(users);
 
     } catch (error) {
-        console.error(error);
-
-        res.status(500).json({
-            message: "Database error"
-        });
+        next(error);
     }
 };
 
 
 // GET one user
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
     try {
         const { id } = req.params;
 
         const user = await userService.getUserById(id);
 
         if (!user) {
-            return res.status(404).json({
-                message: "User not found"
-            });
+            throw new AppError("User not found", 404);
         }
 
         res.status(200).json(user);
 
     } catch (error) {
-        console.error(error);
-
-        res.status(500).json({
-            message: "Database error"
-        });
+        next(error);
     }
 };
 
 
 // CREATE user
-const createUser = async (req, res) => {
+const createUser = async (req, res, next) => {
     try {
         const { name, email, age } = req.body;
 
@@ -57,17 +48,13 @@ const createUser = async (req, res) => {
         res.status(201).json(user);
 
     } catch (error) {
-        console.error(error);
-
-        res.status(500).json({
-            message: "Database error"
-        });
+        next(error);
     }
 };
 
 
 // UPDATE user
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
     try {
         const { id } = req.params;
         const { name, email, age } = req.body;
@@ -80,34 +67,26 @@ const updateUser = async (req, res) => {
         );
 
         if (!user) {
-            return res.status(404).json({
-                message: "User not found"
-            });
+            throw new AppError("User not found", 404);
         }
 
         res.status(200).json(user);
 
     } catch (error) {
-        console.error(error);
-
-        res.status(500).json({
-            message: "Database error"
-        });
+        next(error);
     }
 };
 
 
 // DELETE user
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
     try {
         const { id } = req.params;
 
         const user = await userService.deleteUser(id);
 
         if (!user) {
-            return res.status(404).json({
-                message: "User not found"
-            });
+            throw new AppError("User not found", 404);
         }
 
         res.status(200).json({
@@ -116,11 +95,7 @@ const deleteUser = async (req, res) => {
         });
 
     } catch (error) {
-        console.error(error);
-
-        res.status(500).json({
-            message: "Database error"
-        });
+        next(error);
     }
 };
 
