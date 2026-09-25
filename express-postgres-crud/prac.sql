@@ -195,3 +195,83 @@ with RankedCustomer()
 // 9
 
 with Department
+
+function() OVER(
+    PARTITION BY column
+    ORDER BY column
+)
+
+select d.dept, d.d_name, e.emp,
+    AVG(salary) over(
+        PARTITION By department
+    )
+from employee e;
+
+
+// Window Functions and CTE
+with ranked_employee as (
+    select *,
+        Rank() over(
+            partition by department
+            order by salary desc
+        ) as rank
+    from employees
+)
+select * 
+from ranked_employee
+where rnk = 1;
+
+
+// Dentsu Question
+
+SELECT 
+    campaign_id,
+    campaign_name,
+    channel,
+    budget,
+    COUNT(CASE WHEN status = 'Completed' THEN 1 END) AS completed_order_count
+FROM campaign c
+LEFT JOIN orders o
+    ON c.campaign = o.campaign
+where c.budget > 5000
+GROUP BY
+    campaign,
+    campaign_id,
+    campaign_name,
+    channel
+Having
+    count(case when status = 'completed' then 1 end) > 3
+order by 
+        budget desc,
+        campaign_name asc;
+
+
+WITH HighBudget AS (
+    SELECT
+        c.campaign_id,
+        c.campaign_name,
+        c.channel,
+        c.budget,
+        COUNT(CASE WHEN o.status = 'Completed' THEN 1 END) AS completed_order_count
+    FROM campaigns c
+    LEFT JOIN orders o
+        ON o.campaign_id = c.campaign_id
+    WHERE c.budget > 5000.00
+    GROUP BY
+        c.campaign_id,
+        c.campaign_name,
+        c.channel,
+        c.budget
+    HAVING 
+        COUNT(CASE WHEN o.status = 'Completed' THEN 1 END) < 3
+)
+SELECT 
+    campaign_id,
+    campaign_name,
+    channel,
+    budget,
+    completed_order_count
+FROM HighBudget
+ORDER BY
+    budget DESC,
+    campaign_name ASC;
