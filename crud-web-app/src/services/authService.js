@@ -1,5 +1,59 @@
 const bcrypt = require("bcrypt");
 const pool = require("../config/db");
+const jwt = require("jsonwebtoken");
+
+const loginUser = async (email, password) => {
+
+    // Find user
+    const result = await pool.query(
+        `SELECT id, name, email, age, password
+         FROM users
+         WHERE email = $1`,
+        [email]
+    );
+
+    if (result.rows.length === 0) {
+        const error = new Error("Invalid email or password");
+        error.statusCode = 401;
+        throw error;
+    }
+
+    const user = result.rows[0];
+
+    // Compare password
+    const isPasswordValid = await bcrypt.compare(
+        password,
+        user.password
+    );
+
+    if (!isPasswordValid) {
+        const error = new Error("Invalid email or password");
+        error.statusCode = 401;
+        throw error;
+    }
+
+    // Generate JWT
+    const token = jwt.sign(
+        {
+            userId: user.id,
+            email: user.email
+        },
+        process.env.JWT_SECRET,
+        {
+            expiresIn: "1h"
+        }
+    );
+
+    return {
+        token,
+        user: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            age: user.age
+        }
+    };
+};
 
 const registerUser = async (name, email, age, password) => {
 
@@ -30,5 +84,6 @@ const registerUser = async (name, email, age, password) => {
 };
 
 module.exports = {
-    registerUser
+    registerUser,
+    loginUser
 };
